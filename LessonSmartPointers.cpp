@@ -1,5 +1,7 @@
 #include <memory>
 #include <iostream>
+#include <algorithm>
+#include <vector>
 
 using namespace std;
 
@@ -22,38 +24,61 @@ using namespace std;
 //		cout << "Brand: " << brand << ", Model: " << model << endl;
 //	}
 //};
+//
+//class Human {
+//	string fullName;
+//	int age;
+//public:
+//	Human() {
+//		this->fullName = "Alexey Marahovskiy Pavlovich";
+//		this->age = 16;
+//	}
+//
+//	Human(string fullName, int age) {
+//		this->fullName = fullName;
+//		this->age = age;
+//	}
+//
+//	void print() {
+//		cout << "Full name: " << fullName << endl;
+//		cout << "Age: " << age << endl;
+//	}
+//};
 
-class Human {
-	string fullName;
-	int age;
+class Functor {
+	
 public:
-	Human() {
-		this->fullName = "Alexey Marahovskiy Pavlovich";
-		this->age = 16;
-	}
+	
+	explicit Functor() {};
 
-	Human(string fullName, int age) {
-		this->fullName = fullName;
-		this->age = age;
-	}
-
-	void print() {
-		cout << "Full name: " << fullName << endl;
-		cout << "Age: " << age << endl;
+	void operator()(string& strings) {
+		string tempString = strings;
+		int amounOfChar = strings.length();
+		for (int i = 0; i < amounOfChar; i++) {
+			strings[i] = tempString[amounOfChar - i - 1];
+		}
 	}
 };
 
 int main()
-{
+{ 
+	
+	vector<string> myVector = { "Hello" , "World" , "HEEEEEY" , "ArrEy" };
 
-	unique_ptr<Human[]> humans(new Human[5]);
+	for_each(myVector.begin(), myVector.end(), Functor());
+
+	for (auto& strings : myVector) {
+		cout << strings << endl;
+	}
+
+	/*unique_ptr<Human[]> humans(new Human[5]);
 	for (int i = 0; i < 5; i++) {
 		humans[i].print();
 	}
 	shared_ptr<Human[]> humans2 = move(humans);
 	for (int i = 0; i < 5; i++) {
 		humans2[i].print();
-	}
+	}*/
 
 
 
