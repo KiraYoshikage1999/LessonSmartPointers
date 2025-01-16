@@ -46,7 +46,7 @@ using namespace std;
 //};
 
 class Functor {
-	char operatorNum; // Оператор, переданный в конструктор
+	char operatorNum; 
 public:
 	explicit Functor(char operatorNum) : operatorNum(operatorNum) {}
 
