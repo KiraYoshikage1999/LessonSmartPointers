@@ -46,30 +46,82 @@ using namespace std;
 //};
 
 class Functor {
-	
+	char operatorNum; // Оператор, переданный в конструктор
 public:
-	
-	explicit Functor() {};
+	explicit Functor(char operatorNum) : operatorNum(operatorNum) {}
 
-	void operator()(string& strings) {
+	int operator()(int Num1, int Num2) {
+		if (operatorNum == '+') {
+			return Num1 + Num2;
+		}
+		else if (operatorNum == '-') {
+			return Num1 - Num2;
+		}
+		else if (operatorNum == '*') {
+			return Num1 * Num2;
+		}
+		else if (operatorNum == '/') {
+			if (Num2 != 0) {
+				return Num1 / Num2;
+			}
+			else {
+				throw invalid_argument("Division by zero is not allowed.");
+			}
+		}
+		else if (operatorNum == '%') {
+			if (Num2 != 0) {
+				return Num1 % Num2;
+			}
+			else {
+				throw invalid_argument("Modulo by zero is not allowed.");
+			}
+		}
+		else {
+			throw invalid_argument("Invalid operator provided.");
+		}
+	}
+};
+	/*void operator()(string& strings) {
 		string tempString = strings;
 		int amounOfChar = strings.length();
 		for (int i = 0; i < amounOfChar; i++) {
 			strings[i] = tempString[amounOfChar - i - 1];
 		}
-	}
-};
-
+	}*/
 int main()
 { 
 	
-	vector<string> myVector = { "Hello" , "World" , "HEEEEEY" , "ArrEy" };
+	int Num1 = 10;
+	int Num2 = 3;
 
-	for_each(myVector.begin(), myVector.end(), Functor());
+	Functor add('+');
+	Functor subtract('-');
+	Functor multiply('*');
+	Functor divide('/');
+	Functor modulo('%');
 
-	for (auto& strings : myVector) {
-		cout << strings << endl;
+	try {
+		cout << "Plus: " << add(Num1, Num2) << endl;
+		cout << "minus: " << subtract(Num1, Num2) << endl;
+		cout << "Multiply: " << multiply(Num1, Num2) << endl;
+		cout << "Divide: " << divide(Num1, Num2) << endl;
+		cout << "Modulo: " << modulo(Num1, Num2) << endl;
 	}
+	catch (const invalid_argument& e) {
+		cerr << "Error: " << e.what() << endl;
+	}
+
+	return 0;
+
+	
+
+	//vector<string> myVector = { "Hello" , "World" , "HEEEEEY" , "ArrEy" };
+
+	//for_each(myVector.begin(), myVector.end(), Functor());
+
+	//for (auto& strings : myVector) {
+	//	cout << strings << endl;
+	//}
 
 	/*unique_ptr<Human[]> humans(new Human[5]);
 	for (int i = 0; i < 5; i++) {
